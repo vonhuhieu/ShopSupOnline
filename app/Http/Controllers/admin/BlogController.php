@@ -20,7 +20,7 @@ class BlogController extends Controller
 
     public function blog_list()
     {
-        $blogs = Blog::all();
+        $blogs = Blog::orderBy('updated_at','desc')->get();
         return view('admin/blog/blog_list', compact('blogs'));
     }
 
