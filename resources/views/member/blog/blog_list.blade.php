@@ -25,11 +25,34 @@
                                     <li><i class="fa fa-calendar"></i>{{ $value->updated_at->format('M d, y')}}</li>
                                 </ul>
                                 <span>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star-half-o"></i>
+                                    <?php
+                                        $rates = $value->rates;
+                                        $count_rate = count($rates);
+                                        if($count_rate == 0)
+                                        {
+                                            $avg = "Chưa có lượt đánh giá";
+                                        }
+                                        else
+                                        {
+                                            $tong = 0;
+                                            foreach($rates as $key1 => $value1)
+                                            {
+                                                $tong += $value1->rate;
+                                            }
+                                            $avg = round($tong / $count_rate);
+                                        }
+                                    ?>
+                                    @if ($count_rate == 0)
+                                        {{ $avg }}
+                                    @else
+                                        @for ($i = 1; $i <= 5; ++$i)
+                                            @if ($i <= $avg)
+                                                <i class="fa fa-star"></i>
+                                            @else
+                                                <i class=""></i>
+                                            @endif
+                                        @endfor
+                                    @endif
                                 </span>
                             </div>
                             <a href="">

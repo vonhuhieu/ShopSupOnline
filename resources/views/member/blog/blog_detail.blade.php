@@ -27,13 +27,19 @@
 								<li><i class="fa fa-clock-o"></i>{{ $blog->updated_at->format('H:i') }}</li>
 								<li><i class="fa fa-calendar"></i>{{ $blog->updated_at->format('M d, y') }}</li>
 							</ul>
-							<!-- <span>
-									<i class="fa fa-star"></i>
-									<i class="fa fa-star"></i>
-									<i class="fa fa-star"></i>
-									<i class="fa fa-star"></i>
-									<i class="fa fa-star-half-o"></i>
-								</span> -->
+							<span>
+								@if ($count_rate == 0)
+									{{ $avg }}
+								@else
+									@for ($i = 1; $i <=5; ++$i)
+										@if ($i <= $avg)
+											<i class="fa fa-star"></i>
+										@else
+											<i class=""></i>
+										@endif
+									@endfor
+								@endif
+							</span>
 						</div>
 						<a href="">
 							<img src="{{ asset('/admin/blog/' . $blog->id . '/' . $blog->image) }}" alt="">
@@ -225,8 +231,7 @@ use App\Models\member\Comment;
 						success: function (response) {
 							console.log(response);
 							var avatar = "{{ asset('/member/avatar') }}" + "/" + response.user_id + "/" + response.avatar_user;
-							var html = "";
-							html += `<li id="${response.comment_id}" class="media">
+							html = `<li id="${response.comment_id}" class="media">
 
 										<a class="pull-left" href="#">
 											<img style="width:121px;height:86px" class="media-object" src="${avatar}" alt="">
@@ -238,7 +243,7 @@ use App\Models\member\Comment;
 												<li><i class="fa fa-calendar"></i>${response.day}</li>
 											</ul>
 											<p>${response.comment}</p>
-											<a class="btn btn-primary" href=""><i class="fa fa-reply"></i>Replay</a>
+											<a class="btn btn-primary" href=""><i class="fa fa-reply"></i>Phản hồi</a>
 										</div>
 									</li>`;
 							$("ul.media-list").append(html);
@@ -282,8 +287,7 @@ use App\Models\member\Comment;
 						success: function (response) {
 							console.log(response);
 							var avatar = "{{ asset('/member/avatar') }}" + "/" + response.user_id + "/" + response.avatar_user;
-							var html = "";
-							html += `<li id="${response.replay_id}" class="media second-media">
+							html = `<li id="${response.replay_id}" class="media second-media">
 										<a class="pull-left" href="#">
 											<img style="width:121px;height:86px" class="media-object" src="${avatar}" alt="">
 										</a>
